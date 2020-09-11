@@ -4,9 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import 'antd/dist/antd.css';
+import './styles/ShrimpFarmStyles.css';
+import {ShrimpFarmApp} from "./components/ShrimpFarmApp";
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ShrimpFarmApp />
   </React.StrictMode>,
   document.getElementById('root')
 );
