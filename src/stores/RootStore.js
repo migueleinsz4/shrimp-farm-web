@@ -1,22 +1,34 @@
 import axios from "axios";
+import {isId} from "../utils/Utils";
 
 export function createRootStore() {
+    const usersDb = new Map();
+    usersDb.set("jsnow", {
+        password: "cargill",
+        farmerId: 1,
+        farmerName: "Jon Snow"
+    });
+    usersDb.set("sstark", {
+        password: "cargill",
+        farmerId: 2,
+        farmerName: "Sansa Stark"
+    });
+    axios.defaults.baseURL = "http://localhost:8081/cargill-shrimp-farm/api/v1.0";
+
     return {
-        //username: "",
-        username: "jsnow",
-        //farmerName: "",
-        farmerName: "Jon Snow",
+        username: "",
+        farmerName: "",
         farmerId: null,
-        //view: "LOGIN_VIEW",
-        view: "MAIN_VIEW",
+        view: "LOGIN_VIEW",
         loginMessage: "Login ok",
         selectedMenu: "FARMS_VIEW",
         selectedOption: "FARMS_VIEW_SEARCH",
         login(username, password, view) {
-            if ((username === "jsnow" && password === "cargill") || (username === "sstark" && password === "cargill")) {
+            let user = usersDb.get(username);
+            if (user && password === user.password) {
                 this.username = username;
-                this.farmerName = "Jon Snow";
-                this.farmerId = 1;
+                this.farmerId = user.farmerId;
+                this.farmerName = user.farmerName;
                 this.view = view;
                 this.loginMessage = "Login ok";
             } else {
@@ -29,7 +41,7 @@ export function createRootStore() {
         },
         async createFarm(farm) {
             return await axios({
-                url: `http://localhost:8081/cargill-shrimp-farm/api/v1.0/farms`,
+                url: `/farms`,
                 method: 'post',
                 responseType: 'json',
                 data: {...farm}
@@ -37,7 +49,7 @@ export function createRootStore() {
         },
         async updateFarm(farm) {
             return await axios({
-                url: `http://localhost:8081/cargill-shrimp-farm/api/v1.0/farms`,
+                url: `/farms`,
                 method: 'put',
                 responseType: 'json',
                 data: {...farm}
@@ -45,26 +57,76 @@ export function createRootStore() {
         },
         async deleteFarm(_id) {
             return await axios({
-                url: `http://localhost:8081/cargill-shrimp-farm/api/v1.0/farms/${_id}`,
+                url: `/farms/${_id}`,
                 method: 'delete',
                 responseType: 'json'
             });
         },
-        async searchFarms(_id) {
+        async searchFarms(value) {
+            let _id = null, _name = null;
+            if (isId(value)) {
+                console.log(`${value} is Id`);
+                _id = value;
+            } else {
+                console.log(`${value} is Name`);
+                _name = value;
+            }
             let id = _id ? `/${_id}` : '';
+            let name = _name ? `&farmName=${_name}` : '';
             return await axios({
-                url: `http://localhost:8081/cargill-shrimp-farm/api/v1.0/farms${id}?idFarmer=${this.farmerId}`,
+                url: `/farms${id}?idFarmer=${this.farmerId}${name}`,
                 method: 'get',
                 withCredentials: false,
                 timeout: 3000,
                 responseType: 'json',
             });
         },
-        async searchPonds(_id, _idFarm) {
-            let id = _id ? `/${_id}` : '';
-            let idFarm = _idFarm ? `?idFarm=${_idFarm}` : '';
+        async calculateFarmTotalSize(farmId) {
             return await axios({
-                url: `http://localhost:8081/cargill-shrimp-farm/api/v1.0/ponds${id}${idFarm}?idFarmer=${this.farmerId}`,
+                url: `/farms/${farmId}/size`,
+                method: 'get',
+                withCredentials: false,
+                timeout: 3000,
+                responseType: 'json',
+            });
+        },
+        async createPond(pond) {
+            return await axios({
+                url: `/ponds`,
+                method: 'post',
+                responseType: 'json',
+                data: {...pond}
+            });
+        },
+        async updatePond(pond) {
+            return await axios({
+                url: `/ponds`,
+                method: 'put',
+                responseType: 'json',
+                data: {...pond}
+            });
+        },
+        async deletePond(_id) {
+            return await axios({
+                url: `/ponds/${_id}`,
+                method: 'delete',
+                responseType: 'json'
+            });
+        },
+        async searchPonds(value, _idFarm = null) {
+            let _id = null, _name = null;
+            if (isId(value)) {
+                console.log(`${value} is Id`);
+                _id = value;
+            } else {
+                console.log(`${value} is Name`);
+                _name = value;
+            }
+            let id = _id ? `/${_id}` : '';
+            let idFarm = _idFarm ? `&idFarm=${_idFarm}` : '';
+            let name = _name ? `&pondName=${_name}` : '';
+            return await axios({
+                url: `/ponds${id}?idFarmer=${this.farmerId}${idFarm}${name}`,
                 method: 'get',
                 withCredentials: false,
                 timeout: 3000,

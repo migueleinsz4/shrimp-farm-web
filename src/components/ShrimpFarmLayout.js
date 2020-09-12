@@ -20,7 +20,7 @@ export const ShrimpFarmLayout = observer(() => {
             defaultSelected: "FARMS_VIEW_SEARCH",
             items: [
                 {id: "FARMS_VIEW_SEARCH", item: <Menu.Item key="FARMS_VIEW_SEARCH">Search</Menu.Item>, component: <FarmsSearch />},
-                {id: "FARMS_VIEW_MANAGE", item: <Menu.Item key="FARMS_VIEW_MANAGE">Manage</Menu.Item>, component: <FarmsManage />}
+                {id: "FARMS_VIEW_MANAGE", item: <Menu.Item key="FARMS_VIEW_MANAGE">Create</Menu.Item>, component: <FarmsManage />}
             ]
         }
     );
@@ -30,7 +30,7 @@ export const ShrimpFarmLayout = observer(() => {
             defaultSelected: "PONDS_VIEW_SEARCH",
             items: [
                 {id: "PONDS_VIEW_SEARCH", item: <Menu.Item key="PONDS_VIEW_SEARCH">Search</Menu.Item>, component: <PondsSearch />},
-                {id: "PONDS_VIEW_MANAGE", item: <Menu.Item key="PONDS_VIEW_MANAGE">Manage</Menu.Item>, component: <PondsManage />}
+                {id: "PONDS_VIEW_MANAGE", item: <Menu.Item key="PONDS_VIEW_MANAGE">Create</Menu.Item>, component: <PondsManage />}
             ]
         }
     );

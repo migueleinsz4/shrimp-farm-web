@@ -21,23 +21,6 @@ export const useStore = () => {
     return store
 };
 
-/*
-export class ShrimpFarmApp extends React.Component {
-    constructor(props) {
-        super(props);
-        console.log("Shrimp Farm App Constructor");
-    }
-
-    render() {
-        return (
-            <StoreProvider>
-                <ShrimpFarmRoot/>
-            </StoreProvider>
-        );
-    }
-}
-*/
-
 export function ShrimpFarmApp() {
     return (
         <StoreProvider>
