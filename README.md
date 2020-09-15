@@ -24,6 +24,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ##### Compile and Build:
 
+* npm install
 * The default base URL for API is  
 http://localhost:8081/cargill-shrimp-farm/api/v1.0 (defined in RootStore.js)
 * Installed packages: create-react-app, mobx, mobx-react, antd, @ant-design/icons, axios

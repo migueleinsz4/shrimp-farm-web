@@ -49,7 +49,7 @@ export function createRootStore() {
         },
         async updateFarm(farm) {
             return await axios({
-                url: `/farms`,
+                url: `/farms/${farm.id}`,
                 method: 'put',
                 responseType: 'json',
                 data: {...farm}
@@ -100,7 +100,7 @@ export function createRootStore() {
         },
         async updatePond(pond) {
             return await axios({
-                url: `/ponds`,
+                url: `/ponds/${pond.id}`,
                 method: 'put',
                 responseType: 'json',
                 data: {...pond}
